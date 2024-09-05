@@ -1,0 +1,10 @@
+{
+    "name": "ep_track_changes",
+    "version": "1.0.0",
+    "description": "Etherpad plugin for tracking changes and allowing the document creator to accept/reject them",
+    "main": "index.js",
+    "author": "Biswarup Jana",
+    "license": "MIT",
+    "dependencies": {}
+  }
+  
