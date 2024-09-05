@@ -10,7 +10,7 @@
     },
     "etherpad": {
       "hooks": {
-        "eejsBlock_toolbarRight": "static/js/trackChanges.js",   // Corrected paths
+        "eejsBlock_toolbarRight": "static/js/trackChanges.js",  
         "aceEditEvent": "static/js/trackChanges.js",
         "handleMessage": "static/js/trackChanges.js",
         "expressCreateServer": "index.js"
