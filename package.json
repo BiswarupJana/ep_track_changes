@@ -6,30 +6,34 @@
     "author": "Biswarup Jana",
     "license": "MIT",
     "engines": {
-      "node": ">=10.0.0"
+        "node": ">=10.0.0"
     },
     "etherpad": {
-      "hooks": {
-        "eejsBlock_toolbarRight": "static/js/trackChanges.js",  
-        "aceEditEvent": "static/js/trackChanges.js",
-        "handleMessage": "static/js/trackChanges.js",
-        "expressCreateServer": "index.js"
-      }
+        "hooks": {
+            "eejsBlock_toolbarRight": "static/js/trackChanges.js",
+            "aceEditEvent": "static/js/trackChanges.js",
+            "handleMessage": "static/js/trackChanges.js",
+            "expressCreateServer": "index.js"
+        }
     },
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/BiswarupJana/ep_track_changes.git"
+        "type": "git",
+        "url": "git+https://github.com/BiswarupJana/ep_track_changes.git"
     },
     "keywords": [
-      "ep_track_changes",
-      "etherpad-plugin"
+        "ep_track_changes",
+        "etherpad-plugin"
     ],
     "bugs": {
-      "url": "https://github.com/BiswarupJana/ep_track_changes/issues"
+        "url": "https://github.com/BiswarupJana/ep_track_changes/issues"
     },
-    "homepage": "https://github.com/BiswarupJana/ep_track_changes#readme"
-  }
-  
+    "homepage": "https://github.com/BiswarupJana/ep_track_changes#readme",
+    "dependencies": {
+        "eslint": "^9.9.1",
+        "eslint-config-etherpad": "^4.0.4",
+        "typescript": "^5.5.4"
+    }
+}
