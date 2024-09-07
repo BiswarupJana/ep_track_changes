@@ -32,7 +32,7 @@ const ChangesTracker = {
   },
 
   showChangesUI: function() {
-    if (!isCreator) return;
+    // if (!isCreator) return;
 
     const changesList = changes.map((change, index) => {
       return `
