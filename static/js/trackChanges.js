@@ -1,81 +1,73 @@
-// static/js/trackChanges.js
+'use strict';
 
-let changes = [];
-let isCreator = false;
+let changesList = [];
 
-const ChangesTracker = {
-  initialize: function() {
-    const userId = pad.getUserId();
-    isCreator = pad.isPadCreator(userId);
-    if (isCreator) {
-      this.addToolbarIcon();
-    }
-  },
+const trackChanges = {
+  init: function() {
+    $('#trackChangesButton').click(function() {
+      trackChanges.toggleChangesPopup();
+    });
 
-  addToolbarIcon: function() {
-    $('#editbar .menu_left').append(`
-      <button id="trackChangesButton" title="Track Changes">
-        <i class="fa fa-pencil"></i> Track Changes
-      </button>
-    `);
-    $('#trackChangesButton').click(() => this.showChangesUI());
-  },
+    pad.socket.on('track_change', function(data) {
+      changesList = data.change;
+      trackChanges.renderChanges();
+    });
 
-  captureChange: function(changeData) {
-    changes.push({
-      author: changeData.author,
-      text: changeData.text,
-      timestamp: new Date(),
-      accepted: false,
-      rejected: false
+    pad.socket.on('reject_change', function(data) {
+      trackChanges.removeChange(data.changeIndex);
     });
   },
 
-  showChangesUI: function() {
-    // if (!isCreator) return;
+  toggleChangesPopup: function() {
+    const popup = $('#trackChangesPopup');
+    popup.toggleClass('visible');
+    this.renderChanges();
+  },
 
-    const changesList = changes.map((change, index) => {
-      return `
-        <li>
-          <strong>${change.author}</strong> at ${change.timestamp.toLocaleTimeString()}:
-          ${change.text}
-          <button onclick="ChangesTracker.acceptChange(${index})">Accept</button>
-          <button onclick="ChangesTracker.rejectChange(${index})">Reject</button>
-        </li>
-      `;
-    }).join('');
+  renderChanges: function() {
+    const popup = $('#trackChangesPopupContent');
+    popup.html('');
+    changesList.forEach((change, index) => {
+      const changeItem = `<div class="change-item">
+                            <p><strong>${change.user}</strong> made a change: ${change.change}</p>
+                            <p>Time: ${change.time}</p>
+                            <button data-index="${index}" class="accept-change">Accept</button>
+                            <button data-index="${index}" class="reject-change">Reject</button>
+                          </div>`;
+      popup.append(changeItem);
+    });
 
-    $('#editorcontainerbox').append(`
-      <div id="changesSidebar" style="position: absolute; right: 0; width: 300px; background: #f9f9f9; padding: 10px;">
-        <h3>Tracked Changes</h3>
-        <ul>${changesList}</ul>
-      </div>
-    `);
+    $('.accept-change').click(function() {
+      const index = $(this).data('index');
+      trackChanges.acceptChange(index);
+    });
+
+    $('.reject-change').click(function() {
+      const index = $(this).data('index');
+      trackChanges.rejectChange(index);
+    });
   },
 
   acceptChange: function(index) {
-    changes[index].accepted = true;
-    this.applyChange(index);
-    this.updateUI();
+    pad.socket.emit('custom', {
+      type: 'track_changes_decision',
+      data: { changeIndex: index, decision: 'accept', padId: pad.id }
+    });
   },
 
   rejectChange: function(index) {
-    changes.splice(index, 1); // Remove the change if rejected
-    this.updateUI();
+    pad.socket.emit('custom', {
+      type: 'track_changes_decision',
+      data: { changeIndex: index, decision: 'reject', padId: pad.id }
+    });
   },
 
-  applyChange: function(index) {
-    const change = changes[index];
-    // Logic to apply the change to the document
-  },
-
-  updateUI: function() {
-    $('#changesSidebar ul').html(this.showChangesUI());
+  removeChange: function(index) {
+    changesList.splice(index, 1);
+    this.renderChanges();
   }
 };
 
-$(document).ready(function() {
-  ChangesTracker.initialize();
-});
-
-module.exports = ChangesTracker;
+exports.postAceInit = (hook, context) => {
+  trackChanges.init();
+};

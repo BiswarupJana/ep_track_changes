@@ -1,31 +1,24 @@
-/* static/css/trackChanges.css */
-#changesSidebar {
-    border-left: 1px solid #ccc;
-    background: #f9f9f9;
-    padding: 10px;
-    position: fixed;
-    right: 0;
-    width: 300px;
-    height: 100%;
-    overflow-y: auto;
-  }
-  
-  #changesSidebar h3 {
-    margin-top: 0;
-  }
-  
-  #changesSidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  #changesSidebar li {
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  #changesSidebar button {
-    margin-left: 5px;
-  }
-  
+.track-changes-popup {
+  position: fixed;
+  right: 10px;
+  top: 50px;
+  width: 300px;
+  height: 400px;
+  background: white;
+  border: 1px solid #ccc;
+  overflow-y: auto;
+  display: none;
+}
+
+.track-changes-popup.visible {
+  display: block;
+}
+
+.change-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.change-item button {
+  margin: 5px;
+}

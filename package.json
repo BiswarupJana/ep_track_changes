@@ -39,6 +39,7 @@
         "typescript": "^5.5.4"
     },
     "devDependencies": {
-        "eslint": "^8.57.0"
+        "eslint": "^8.57.0",
+        "ep_etherpad-lite": "2.2.2"
     }
 }

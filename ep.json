@@ -1,0 +1,9 @@
+{
+    "parts": [
+      {
+        "name": "ep_track_changes/static/js/trackChanges",
+        "client_hooks": ["trackChanges"]
+      }
+    ]
+  }
+  
